@@ -7,7 +7,7 @@ The project is designed as intended for usage in a production environment either
 
 ## Features
 
-1 Authentication
+* Authentication
 This consists of a user registration and login feature. In the users directory of this repository consists of a register-view in the views.py file, the template register.html in templates\users and the correspondiing url. The default UserCreationForm in django was modified to contain an email field and named UserRegistrationForm in the forms.py file.
 Once the POST request is made to the url and form is validated using my custom made User moedel in the models.py file, the user would be created, a profile would be automatically generated using signals in the signals.py file and then redirected to the login page and would be able to login.
 Also, a user can only view the home page but will be redirected to login if he/she tries to view the post_detail page or user_post page if not logged, same with the site visitors.
@@ -15,7 +15,7 @@ Also, a user can only view the home page but will be redirected to login if he/s
 * Authentication API View
 Once a POST requst has been made to the url, the data would be serialized using my custom made RegistrationSerializer and then validated and saved. Once saved, a token would be automatically generated as this programs API view uses a token authentication and a Profile would also be generated for that user using the @receiver signal and the user would be able to login.
 
-2 Query Functions
+* Query Functions
 In this project is a search function "search_post" in the blog/views.py file with the ability to locate a particular post if the searched word is contained in any post with the author, title or content. 
 The ability to query and display all posts made by a particular user
 The ability to get a particular post from all posts displayed on the home screen.
