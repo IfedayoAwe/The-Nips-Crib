@@ -18,8 +18,8 @@ urlpatterns = [
     path('', include('blog.urls')),
 
     #RESTFRAMEWORK URLSs
-    # path('', include('blog.api.urls', 'blog_api')),
-    # path('api/user/', include('users.api.urls', 'user_api'))
+#     path('', include('blog.api.urls', 'blog_api')),
+#     path('api/user/', include('users.api.urls', 'user_api'))
 ]
 
 if settings.DEBUG:
