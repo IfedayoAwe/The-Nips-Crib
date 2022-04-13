@@ -24,13 +24,6 @@ class ApiBlogListView(ListAPIView):
 @api_view(['GET', 'POST'])
 @permission_classes((IsAuthenticated,))
 def post_list(request):
-    """
-    List all code snippets, or create a new snippet.
-    """
-    # if request.method == 'GET':
-    #     posts = Post.objects.all()
-    #     serializer = PostSerializer(posts, many=True)
-    #     return Response(serializer.data)
 
     if request.method == 'POST':
         user = request.user
