@@ -20,7 +20,7 @@ class ApiBlogListView(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated|ReadOnly]
     pagination_class = PageNumberPagination
-
+    
 @api_view(['GET', 'POST'])
 @permission_classes((IsAuthenticated,))
 def new_post(request):
