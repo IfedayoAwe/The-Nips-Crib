@@ -6,31 +6,24 @@ The project is designed as intended for usage in a production environment either
 
 
 ## Features
-* Authentication
-This consists of a user registration and login feature. In the users directory of this repository consists of a register-view in the views.py file, the template register.html in templates\users and the correspondiing url. The default UserCreationForm in django was modified to contain an email field and named UserRegistrationForm in the forms.py file.
+* Authentication: This consists of a user registration and login feature. In the users directory of this repository consists of a register-view in the views.py file, the template register.html in templates\users and the correspondiing url. The default UserCreationForm in django was modified to contain an email field and named UserRegistrationForm in the forms.py file.
 Once the POST request is made to the url and form is validated using my custom made User moedel in the models.py file, the user would be created, a profile would be automatically generated using signals in the signals.py file and then redirected to the login page and would be able to login.
 Also, a user can only view the home page but will be redirected to login if he/she tries to view the post_detail page or user_post page if not logged, same with the site visitors.
 
-* Authentication API View
-Once a POST requst has been made to the url, the data would be serialized using my custom made RegistrationSerializer and then validated and saved. Once saved, a token would be automatically generated as this programs API view uses a token authentication and a Profile would also be generated for that user using the @receiver signal and the user would be able to login.
+* Authentication API View: Once a POST requst has been made to the url, the data would be serialized using my custom made RegistrationSerializer and then validated and saved. Once saved, a token would be automatically generated as this programs API view uses a token authentication and a Profile would also be generated for that user using the @receiver signal and the user would be able to login.
 
-* Query Functions
-In this project is a search function "search_post" in the blog/views.py file with the ability to locate a particular post if the searched word is contained in any post with the author, title or content. The post request is stored in a session to enable pagination of the searched result.
+* Query Functions: In this project is a search function "search_post" in the blog/views.py file with the ability to locate a particular post if the searched word is contained in any post with the author, title or content. The post request is stored in a session to enable pagination of the searched result.
 The ability to query and display all posts made by a particular user
 The ability to get a particular post from all posts displayed on the home screen.
 note: results are paginated by 10
 
-* CRUD functions on posts
-Class based views were used in the blog/views.py file to implement CRUD operations on posts. Non registered users as well as loggedout users can only view the home page but would be redirected to login if any other operation was attempted. Logged in users can only update and delete posts made by them.
+* CRUD functions on posts: Class based views were used in the blog/views.py file to implement CRUD operations on posts. Non registered users as well as loggedout users can only view the home page but would be redirected to login if any other operation was attempted. Logged in users can only update and delete posts made by them.
 
-* CRUD functions API View
-The CRUD operations here are designed just like the one above with a few modifications. Before requests can be serialized or validated, the token generated must be granted permissions to carry out such operations.
+* CRUD functions API View: The CRUD operations here are designed just like the one above with a few modifications. Before requests can be serialized or validated, the token generated must be granted permissions to carry out such operations.
 
-* Password Reset Function
-This uses the default django PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView and sends a reset link to the users email.
+* Password Reset Function: This uses the default django PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView and sends a reset link to the users email.
 
-* Profile CRUD operations
-The program includes the ability for a user to perform CRUD operations on their profile pictures although a default profile picture is given once the user is created, also ability to Update their username and email.
+* Profile CRUD operations: The program includes the ability for a user to perform CRUD operations on their profile pictures although a default profile picture is given once the user is created, also ability to Update their username and email.
 
 
 ## Language
