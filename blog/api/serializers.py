@@ -5,7 +5,7 @@ class PostSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField('get_username_from_author')
     class Meta:
         model = Post
-        fields = ['title', 'content', 'date_posted', 'username']
+        fields = ['id', 'title', 'content', 'date_posted', 'username']
 
     def get_username_from_author(self, post):
         username = post.author.username

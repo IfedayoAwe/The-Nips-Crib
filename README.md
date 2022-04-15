@@ -54,7 +54,14 @@ virtualenv==20.13.0
 
 ## Post Man Documentation
 A list of the endpoints and the functions they implement can be found in the API folder inside every app folder.
-Blog/Api
+Note: Set url in django_blog/urls.py to api by commenting out "path('', include('blog.urls'))" and commenting urls in rstframework section and vice versa.
+app_name = 'users'
+
+urlpatterns = [
+    path('register/', registration_view, name='register'),
+    path('login/', obtain_auth_token, name='login')
+]
+
 
 app_name = 'blog'
 
@@ -64,13 +71,14 @@ urlpatterns = [
     path('list/', ApiBlogListView.as_view(), name='list')
 ]
 
-app_name = 'users'
+1. Run the server and go to 'list/', send a GET request with no authentication or permissions should return all posts by all users if there is any.
+2. Go to 'register/' to register a new user, send a POST request to set keys: username, email, password, password2 and their corresponding values in body of request. A "response": "Sucessfully registered a new user.", "email", "username" and "token" would be returned.
+3. Go to 'login/' to login. Paste token in header of request and set keys: username and password in body. Note: value of key "username" would be the email of the registered user this is due to django's default "USERNAME_FIELD".
+4. Go to '' and set request to 'POST' to create a new post, paste the token in the header and set keys: title and content in body.
+5. Go to 'post/<id of any post>/'. Paste the token in the header and send a GET request to get that post.
+6. Go to 'post/<id of a post made with the same user token>'. set keys: title and content and send a PUT request to update the post.
+7. Go to 'post/<id of a post made with the same user token>'. send a DELET request to delete the post.
 
-
-urlpatterns = [
-    path('register/', registration_view, name='register'),
-    path('login/', obtain_auth_token, name='login')
-]
 
 ## Contribution
 Pull requests are welcome.
