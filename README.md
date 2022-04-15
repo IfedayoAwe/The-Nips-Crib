@@ -81,6 +81,6 @@ urlpatterns = [
 6. Go to 'post/<id of a post made with the same user token>'. set keys: title and content and send a PUT request to update the post.
 7. Go to 'post/<id of a post made with the same user token>'. send a DELET request to delete the post.
 
-
 ## Contribution
-Pull requests are welcome.
+Pull requests are and new features suggestions are welcomed.
+I also plan on adding more features and API's to this project.
