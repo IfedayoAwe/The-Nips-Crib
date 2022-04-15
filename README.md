@@ -55,7 +55,8 @@ virtualenv==20.13.0
 
 ## Post Man Documentation
 A list of the endpoints and the functions they implement can be found in the API folder inside every app folder.
-Note: Set url in django_blog/urls.py to api by commenting out "path('', include('blog.urls'))" and commenting urls in rstframework section and vice versa.
+Note: Set url in django_blog/urls.py to api by commenting out "path('', include('blog.urls'))" and commenting urls in restframework section and vice versa.
+
 app_name = 'users'
 
 urlpatterns = [
