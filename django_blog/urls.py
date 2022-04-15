@@ -15,11 +15,11 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'), name='password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
-    # path('', include('blog.urls')),
+    path('', include('blog.urls')),
 
     #RESTFRAMEWORK URLSs
-    path('', include('blog.api.urls', 'blog_api')),
-    path('api/user/', include('users.api.urls', 'user_api'))
+    # path('', include('blog.api.urls', 'blog_api')),
+    # path('api/user/', include('users.api.urls', 'user_api'))
 ]
 
 if settings.DEBUG:

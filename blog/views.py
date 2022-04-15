@@ -1,4 +1,4 @@
-from importlib.resources import contents
+from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from users.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -81,10 +81,11 @@ def search_post(request):
             return redirect('blog-home')
 
         request.session['searched'] = request.POST
-        author = Post.objects.filter(author__username__icontains=searched).order_by('-date_posted')
-        title = Post.objects.filter(title__icontains=searched).order_by('-date_posted')
-        content = Post.objects.filter(content__icontains=searched).order_by('-date_posted')
-        result_list = list(set(chain(author, title, content)))
+        result_list = Post.objects.filter(
+                                        Q(title__contains=searched) | 
+                                        Q(content__contains=searched) | 
+                                        Q(author__username__contains=searched)
+                                        ).distinct().order_by('-date_posted')
         paginator = Paginator(result_list, 10)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)

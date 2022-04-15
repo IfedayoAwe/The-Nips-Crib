@@ -16,7 +16,7 @@ Also, a user can only view the home page but will be redirected to login if he/s
 Once a POST requst has been made to the url, the data would be serialized using my custom made RegistrationSerializer and then validated and saved. Once saved, a token would be automatically generated as this programs API view uses a token authentication and a Profile would also be generated for that user using the @receiver signal and the user would be able to login.
 
 * Query Functions
-In this project is a search function "search_post" in the blog/views.py file with the ability to locate a particular post if the searched word is contained in any post with the author, title or content. 
+In this project is a search function "search_post" in the blog/views.py file with the ability to locate a particular post if the searched word is contained in any post with the author, title or content. The post request is stored in a session to enable pagination of the searched result.
 The ability to query and display all posts made by a particular user
 The ability to get a particular post from all posts displayed on the home screen.
 note: results are paginated by 10
