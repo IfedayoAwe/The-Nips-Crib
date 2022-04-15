@@ -1,12 +1,11 @@
 # The-Nips-Crib
 
 ## Description
-
 This repository contains the the code that each file in the project directory of building a social website with a full registration and authentication system, query functions to get a particular post from the list view and all posts of a particular author, a search function to locate a particular post or user, CRUD operations to create, read, update and delete posts, create function is given only to registered persons, update and delete permissions are given to the owner of the post. Password reset using email and the default django email service, ability to upload profile pictures, update profile picture, username and email by the user, pagination of all search results and queries and the corresponding API VIEWS all of all functions in the same repository.
 The project is designed as intended for usage in a production environment either with templates or as api endpoints using token authentication. The program consists of a custom made User model, a Profile model for the users profile and Post model for posts made.
 
-## Features
 
+## Features
 * Authentication
 This consists of a user registration and login feature. In the users directory of this repository consists of a register-view in the views.py file, the template register.html in templates\users and the correspondiing url. The default UserCreationForm in django was modified to contain an email field and named UserRegistrationForm in the forms.py file.
 Once the POST request is made to the url and form is validated using my custom made User moedel in the models.py file, the user would be created, a profile would be automatically generated using signals in the signals.py file and then redirected to the login page and would be able to login.
@@ -37,6 +36,7 @@ The program includes the ability for a user to perform CRUD operations on their 
 ## Language
 The Nips Crib was built in Python using the Django framework and also the Django Rest framework for the corresponding API VIEWS.
 
+
 ## Dependencies
 asgiref==3.5.0
 distlib==0.3.4
@@ -51,6 +51,7 @@ six==1.16.0
 sqlparse==0.4.2
 tzdata==2021.5
 virtualenv==20.13.0
+
 
 ## Post Man Documentation
 A list of the endpoints and the functions they implement can be found in the API folder inside every app folder.
