@@ -4,7 +4,6 @@ from users.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from . models import Post
 from django.core.paginator import Paginator
-from itertools import chain
 from django.views.generic import (
     ListView, 
     DetailView, 
