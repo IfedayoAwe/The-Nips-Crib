@@ -6,22 +6,35 @@ from rest_framework.permissions import (IsAuthenticated,
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics
 
 from blog.models import Post
 from blog.api.serializers import PostSerializer
+from django.shortcuts import get_object_or_404
+from users.models import User
 
 class ReadOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS
 
 class ApiBlogListView(ListAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-date_posted')
     serializer_class = PostSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated|ReadOnly]
     pagination_class = PageNumberPagination
+
+class UserApiBlogListView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [IsAuthenticated,]
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
     
-@api_view(['GET', 'POST'])
+@api_view(['POST',])
 @permission_classes((IsAuthenticated,))
 def new_post(request):
 
@@ -37,9 +50,7 @@ def new_post(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes((IsAuthenticated,))
 def post_detail(request, pk):
-    """
-    Retrieve, update or delete a code snippet.
-    """
+
     try:
         post = Post.objects.get(pk=pk)
     except Post.DoesNotExist:

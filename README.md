@@ -17,6 +17,8 @@ The ability to query and display all posts made by a particular user
 The ability to get a particular post from all posts displayed on the home screen.
 note: results are paginated by 10
 
+* Query API Function: API view to query functions above were implemented.
+
 * CRUD functions on posts: Class based views were used in the blog/views.py file to implement CRUD operations on posts. Non registered users as well as loggedout users can only view the home page but would be redirected to login if any other operation was attempted. Logged in users can only update and delete posts made by them.
 
 * CRUD functions API View: The CRUD operations here are designed just like the one above with a few modifications. Before requests can be serialized or validated, the token generated must be granted permissions to carry out such operations.
@@ -61,9 +63,10 @@ urlpatterns = [
 app_name = 'blog'
 
 urlpatterns = [
-    path('', post_list, name='blog-home'),
-    path('post/<int:pk>/', post_detail, name='post-detail'),
-    path('list/', ApiBlogListView.as_view(), name='list')
+    path('post/<int:pk>/', post_detail, name='post-api-detail'),
+    path('post/', new_post, name='post'),
+    path('', ApiBlogListView.as_view(), name='list'),
+    path('user/<str:username>', UserApiBlogListView.as_view(), name='user-api-posts'),
 ]
 
 1. Run the server and go to 'list/', send a GET request with no authentication or permissions should return all posts by all users if there is any.
@@ -73,6 +76,7 @@ urlpatterns = [
 5. Go to 'post/<id of any post>/'. Paste the token in the header and send a GET request to get that post.
 6. Go to 'post/<id of a post made with the same user token>'. set keys: title and content and send a PUT request to update the post.
 7. Go to 'post/<id of a post made with the same user token>'. send a DELET request to delete the post.
+8. To query all posts made by a particular user, an authentication token must be provided in the head of the request.
 
 ## Contribution
 Pull requests are and new features suggestions are welcomed.
