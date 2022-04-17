@@ -7,6 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from blog.models import Post
 from blog.api.serializers import PostSerializer
@@ -23,6 +24,9 @@ class ApiBlogListView(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated|ReadOnly]
     pagination_class = PageNumberPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title', 'content', 'author__username']
+
 
 class UserApiBlogListView(generics.ListAPIView):
     serializer_class = PostSerializer
