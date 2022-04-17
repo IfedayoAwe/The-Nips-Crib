@@ -25,7 +25,9 @@ note: results are paginated by 10
 
 * Password Reset Function: This uses the default django PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView and sends a reset link to the users email.
 
-* Profile CRUD operations: The program includes the ability for a user to perform CRUD operations on their profile pictures although a default profile picture is given once the user is created, also ability to Update their username and email.
+* Profile CRUD operations: The program includes the ability for a user to update their username, email and profile pictures although a default profile picture is given once the user is created.
+
+* Profile CRUD operations API: The program includes the API view for a user to update their username, email and profile pictures although a default profile picture is given once the user is created.
 
 
 ## Language
@@ -56,7 +58,9 @@ app_name = 'users'
 
 urlpatterns = [
     path('register/', registration_view, name='register'),
-    path('login/', obtain_auth_token, name='login')
+    path('login/', obtain_auth_token, name='login'),
+    path('properties/', user_properties_view, name='properties'),
+    path('profile/', user_profile_view, name='profile-api')
 ]
 
 
@@ -77,6 +81,7 @@ urlpatterns = [
 6. Go to 'post/<id of a post made with the same user token>'. set keys: title and content and send a PUT request to update the post.
 7. Go to 'post/<id of a post made with the same user token>'. send a DELET request to delete the post.
 8. To query all posts made by a particular user, an authentication token must be provided in the head of the request.
+9. The urls: 'properties' and 'profile-api' points to the functions that update the user's 'username and email' and 'profile picture' respectively. An authentication token would be required in the header of the request and the corresponding values to the keys: 'username and email' and 'image'.
 
 ## Contribution
 Pull requests are and new features suggestions are welcomed.
