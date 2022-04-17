@@ -1,8 +1,10 @@
+from fileinput import filename
+from users.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from users.api.serializers import RegistrationSerializer
+from users.api.serializers import RegistrationSerializer, UserPropertiesSerializer, UserProfileSerializer
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))
@@ -19,3 +21,45 @@ def registration_view(request):
         else:
             data = serializer.errors
         return Response(data)
+
+@api_view(['GET', 'PUT'])
+@permission_classes((IsAuthenticated,))
+def user_properties_view(request):
+    try:
+        user = request.user
+    except User.DoesNotExist:
+        return Response(status=404)
+
+    if request.method == 'GET':
+        serializer = UserPropertiesSerializer(user)
+        return Response(serializer.data)
+
+    if request.method == 'PUT':
+        serializer = UserPropertiesSerializer(user, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['response'] = "Account update success"
+            return Response(data=data)
+        return Response(serializer.errors, status=404)
+
+@api_view(['GET', 'PUT'])
+@permission_classes((IsAuthenticated,))
+def user_profile_view(request):
+    try:
+        profile = request.user.profile
+    except User.DoesNotExist:
+        return Response(status=404)
+
+    if request.method == 'GET':
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+
+    if request.method == 'PUT':
+        serializer = UserProfileSerializer(profile, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['response'] = "profile update success"
+            return Response(data=data)
+        return Response(serializer.errors, status=404)
