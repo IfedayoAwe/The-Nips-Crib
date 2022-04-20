@@ -58,4 +58,4 @@ class PostCreateSerializer(serializers.ModelSerializer):
 			post.save()
 			return post
 		except KeyError:
-			raise serializers.ValidationError({"response": "You must have a title and some content"}) 
+			raise serializers.ValidationError({"response": "You must have a title and some content"})
