@@ -8,10 +8,9 @@ from users.api.views import (
 
 app_name = 'users'
 
-
 urlpatterns = [
     path('register/', registration_view, name='register-api'),
     path('login/', ObtainAuthTokenView.as_view(), name='login-api'),
     path('properties/', user_properties_view, name='properties-api'),
-    path('profile/', user_profile_view, name='profile-api')
+    path('profile', user_profile_view, name='profile-api')
 ]

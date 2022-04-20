@@ -58,7 +58,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('register/', registration_view, name='register'),
-    path('login/', obtain_auth_token, name='login'),
+    path('login/', ObtainAuthTokenView.as_view(), name='login'),
     path('properties/', user_properties_view, name='properties'),
     path('profile/', user_profile_view, name='profile-api')
 ]
@@ -75,7 +75,7 @@ urlpatterns = [
 
 1. Run the server and go to 'list/', send a GET request with no authentication or permissions should return all posts by all users if there is any.
 2. Go to 'register/' to register a new user, send a POST request to set keys: username, email, password, password2 and their corresponding values in body of request. A "response": "Sucessfully registered a new user.", "email", "username" and "token" would be returned.
-3. Go to 'login/' to login. Paste token in header of request and set keys: username and password in body. Note: value of key "username" would be the email of the registered user this is due to django's default "USERNAME_FIELD".
+3. Go to 'login/' to login. The login uses a custom made ObtainAuthTokenView class view which extends from the APIView, Paste token in header of request although a token is created once logged in and set keys: username and password in body. Note: value of key "username" would be the email of the registered user this is due to django's default "USERNAME_FIELD".
 4. Go to '' and set request to 'POST' to create a new post, paste the token in the header and set keys: title and content in body.
 5. Go to 'post/<id of any post>/'. Paste the token in the header and send a GET request to get that post.
 6. Go to 'post/<id of a post made with the same user token>'. set keys: title and content and send a PUT request to update the post.
