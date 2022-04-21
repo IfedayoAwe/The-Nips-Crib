@@ -40,10 +40,12 @@ def user_properties_view(request):
         return Response(serializer.data)
 
     if request.method == 'PUT':
-        request_data = request.data
-        data = request_data.copy()
-        data['email'] = request.data['email'].lower()
-        serializer = UserPropertiesSerializer(user, data=data)
+        data = request.data
+        if 'email' in request.data:
+            request_data = request.data
+            data = request_data.copy()
+            data['email'] = request.data['email'].lower()
+        serializer = UserPropertiesSerializer(user, data=data, partial=True)
         data = {}
         if serializer.is_valid():
             serializer.save()
