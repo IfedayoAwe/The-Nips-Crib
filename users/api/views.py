@@ -18,6 +18,7 @@ def registration_view(request):
             data['response'] = "Sucessfully registered a new user."
             data['email'] = user.email
             data['username'] = user.username
+            data['pk'] = user.pk
             data['token'] = Token.objects.get(user = user).key
         else:
             data = serializer.errors
@@ -74,7 +75,7 @@ class ObtainAuthTokenView(APIView):
 		email = request.POST.get('username')
 		password = request.POST.get('password')
 		account = authenticate(email=email, password=password)
-        
+
 		if account:
 			try:
 				token = Token.objects.get(user=account)
