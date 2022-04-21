@@ -6,10 +6,13 @@ from django.contrib.auth import login, authenticate
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        request_data = request.POST
+        data = request_data.copy()
+        data['email'] = request.POST['email'].lower()
+        form = UserRegisterForm(data)
         if form.is_valid():
             form.save()
-            email = form.cleaned_data.get('email')
+            email = form.cleaned_data.get('email').lower()
             password1 = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=password1)
             login(request, user)
@@ -22,7 +25,10 @@ def register(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance=request.user)
+        request_data = request.POST
+        data = request_data.copy()
+        data['email'] = request.POST['email'].lower()
+        u_form = UserUpdateForm(data, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()

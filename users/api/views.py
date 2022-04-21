@@ -11,12 +11,15 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 @permission_classes((AllowAny,))
 def registration_view(request):
     if request.method == 'POST':
-        serializer = RegistrationSerializer(data=request.data)
+        request_data = request.data
+        data = request_data.copy()
+        data['email'] = request.data['email'].lower()
+        serializer = RegistrationSerializer(data=data)
         data = {}
         if serializer.is_valid():
             user = serializer.save()
             data['response'] = "Sucessfully registered a new user."
-            data['email'] = user.email
+            data['email'] = user.email.lower()
             data['username'] = user.username
             data['pk'] = user.pk
             data['token'] = Token.objects.get(user = user).key
@@ -37,7 +40,10 @@ def user_properties_view(request):
         return Response(serializer.data)
 
     if request.method == 'PUT':
-        serializer = UserPropertiesSerializer(user, data=request.data)
+        request_data = request.data
+        data = request_data.copy()
+        data['email'] = request.data['email'].lower()
+        serializer = UserPropertiesSerializer(user, data=data)
         data = {}
         if serializer.is_valid():
             serializer.save()
@@ -83,7 +89,7 @@ class ObtainAuthTokenView(APIView):
 				token = Token.objects.create(user=account)
 			context['response'] = 'Successfully authenticated.'
 			context['pk'] = account.pk
-			context['email'] = email
+			context['email'] = email.lower()
 			context['token'] = token.key
 		else:
 			context['response'] = 'Error'
