@@ -31,7 +31,6 @@ class ApiBlogListView(ListAPIView):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'content', 'author__username']
 
-
 class UserApiBlogListView(ListAPIView):
     serializer_class = PostSerializer
     authentication_classes = (TokenAuthentication,)

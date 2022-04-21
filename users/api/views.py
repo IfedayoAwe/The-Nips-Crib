@@ -66,16 +66,15 @@ def user_profile_view(request):
         return Response(serializer.errors, status=404)
 
 class ObtainAuthTokenView(APIView):
-
 	authentication_classes = []
 	permission_classes = []
 
 	def post(self, request):
 		context = {}
-
 		email = request.POST.get('username')
 		password = request.POST.get('password')
 		account = authenticate(email=email, password=password)
+        
 		if account:
 			try:
 				token = Token.objects.get(user=account)
@@ -88,5 +87,4 @@ class ObtainAuthTokenView(APIView):
 		else:
 			context['response'] = 'Error'
 			context['error_message'] = 'Invalid credentials'
-
 		return Response(context)
