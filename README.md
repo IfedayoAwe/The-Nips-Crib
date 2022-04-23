@@ -10,7 +10,7 @@ The project is designed as intended for usage in a production environment either
 Once the POST request is made to the url and form is validated using my custom made User moedel in the models.py file, the user would be created, a profile would be automatically generated using signals in the signals.py file and then redirected to the login page and would be able to login.
 Also, a user can only view the home page but will be redirected to login if he/she tries to view the post_detail page or user_post page if not logged, same with the site visitors.
 
-* Authentication API View: Once a POST requst has been made to the url, the data would be serialized using my custom made RegistrationSerializer and then validated and saved. Once saved, a token would be automatically generated as this programs API view uses a token authentication and a Profile would also be generated for that user using the @receiver signal and the user would be able to login.
+* Authentication API View: Once a POST requst has been made to the url, the data would be serialized using my custom made RegistrationSerializer and then validated and saved. Once saved, a token would be automatically generated as this programs API view uses a token authentication and a Profile would also be generated for that user using the @receiver signal and the user would be able to login. if a user's email contains any uppercase letter it would be converted to all lowercase before it is being saved, if a user tries to login with an email containing uppercase, it would be converted to lowercase and then logged in. 
 
 * Query Functions: In this project is a search function "search_post" in the blog/views.py file with the ability to locate a particular post if the searched word is contained in any post with the author, title or content. The post request is stored in a session to enable pagination of the searched result.
 The ability to query and display all posts made by a particular user
@@ -27,7 +27,9 @@ note: results are paginated by 10
 
 * Profile CRUD operations: The program includes the ability for a user to update their username, email and profile pictures although a default profile picture is given once the user is created.
 
-* Profile CRUD operations API: The program includes the API view for a user to update their username, email and profile pictures although a default profile picture is given once the user is created.
+* Profile CRUD operations API: The program includes the API view for a user to update their username, email and profile pictures although a default profile picture is given once the user is created. If a user's email contains uppercase, it would be converted to all lowercase, an aspect ratio of 1:1 and size maximum 2mb is compulsory for profile picture updates.
+
+* Change Password API View: A function and serializer to change a users password is implemented in this program. It checks if the old password is correct and makes a comparison between the new_password and confirm_new_password before it sets the user's password to the new password inputed.
 
 
 ## Language
@@ -57,10 +59,12 @@ Note: Set url in django_blog/urls.py to api by commenting out "path('', include(
 app_name = 'users'
 
 urlpatterns = [
-    path('register/', registration_view, name='register'),
-    path('login/', obtain_auth_token, name='login'),
-    path('properties/', user_properties_view, name='properties'),
-    path('profile/', user_profile_view, name='profile-api')
+    path('register/', registration_view, name='register-api'),
+    path('properties/', user_properties_view, name='properties-api'),
+    path('profile', user_profile_view, name='profile-api'),
+    path('check_if_account_exists/', does_account_exist_view, name="check_if_account_exists"),
+    path('login/', ObtainAuthTokenView.as_view(), name='login-api'),
+	path('change_password/', ChangePasswordView.as_view(), name="change_password"),
 ]
 
 
@@ -73,15 +77,17 @@ urlpatterns = [
     path('user/<str:username>', UserApiBlogListView.as_view(), name='user-api-posts'),
 ]
 
-1. Run the server and go to 'list/', send a GET request with no authentication or permissions should return all posts by all users if there is any.
-2. Go to 'register/' to register a new user, send a POST request to set keys: username, email, password, password2 and their corresponding values in body of request. A "response": "Sucessfully registered a new user.", "email", "username" and "token" would be returned.
-3. Go to 'login/' to login. Paste token in header of request and set keys: username and password in body. Note: value of key "username" would be the email of the registered user this is due to django's default "USERNAME_FIELD".
-4. Go to '' and set request to 'POST' to create a new post, paste the token in the header and set keys: title and content in body.
-5. Go to 'post/<id of any post>/'. Paste the token in the header and send a GET request to get that post.
-6. Go to 'post/<id of a post made with the same user token>'. set keys: title and content and send a PUT request to update the post.
-7. Go to 'post/<id of a post made with the same user token>'. send a DELET request to delete the post.
+1. 'list', send a GET request with no authentication or permissions should return all posts by all users if there is any.
+2. 'register-api' to register a new user, send a POST request, set keys: username, email, password, password2 and their corresponding values in body of request. A "response": "Sucessfully registered a new user.", "email", "username" and "token" would be returned.
+3. 'login-api' to login. The login uses a custom made ObtainAuthTokenView class view which extends from the APIView, Paste token in header of request although a token is created once logged in and set keys: username and password in body. Note: value of key "username" would be the email of the registered user this is due to django's default "USERNAME_FIELD".
+4. 'list' and set request to 'POST' to create a new post, paste the token in the header and set keys: title and content in body.
+5. 'post-api-detail'. Paste the token in the header, the url and id of a post and send a GET request to get that post.
+6. 'post/<id of a post made with the same user token>'. set keys: title and content / title or content and send a PUT request to update the post, either a title or content must be inputed to make an update, the title would remain the same as the previous if a new one wasn't given, likewise the content.
+7. 'post/<id of a post made with the same user token>'. send a DELET request to delete the post.
 8. To query all posts made by a particular user, an authentication token must be provided in the head of the request.
-9. The urls: 'properties' and 'profile-api' points to the functions that update the user's 'username and email' and 'profile picture' respectively. An authentication token would be required in the header of the request and the corresponding values to the keys: 'username and email' and 'image'.
+9. The url 'properties' points to the functions that update the user's 'username and email' respectively. An authentication token would be required in the header of the request and the corresponding values to the keys: 'username and email', a user can choose to update only the username or email or both, likewise is postman.
+10. The url 'profile-api' points to the functions that update the user's 'profile picture'. An authentication token would be required in the header of the request and the corresponding values to the key: 'image', and then the new file
+11. To use the change_password function, an authentication token is needed, an old_password, new_password and confirm_password key is necessary.
 
 ## Contribution
 Pull requests are and new features suggestions are welcomed.

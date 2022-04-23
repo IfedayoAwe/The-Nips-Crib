@@ -12,12 +12,11 @@ from django.views.generic import (
     DeleteView,
 )
 
-
 class PostListView(ListView):
     model = Post
     template_name = 'blog/home.html'
     context_object_name = 'posts' #by defautl the variable is called 'objectlist' in template
-    ordering = ['-date_posted']
+    ordering = ['-date_updated']
     paginate_by = 10
 
 class UserPostListView(LoginRequiredMixin, ListView):
@@ -52,6 +51,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+    ordering = ['-date_updated']
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post

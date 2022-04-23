@@ -1,4 +1,3 @@
-from site import USER_BASE
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from PIL import Image
@@ -14,7 +13,6 @@ class MyAccountManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             password = password,
-
         )
 
         user.set_password(password)
