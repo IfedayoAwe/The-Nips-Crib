@@ -1,5 +1,3 @@
-import cv2
-import sys
 import os
 from django.conf import settings
 from django.core.files.storage import default_storage
@@ -7,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 IMAGE_SIZE_MAX_BYTES = 1024 * 1024 * 2 # 2MB
 from rest_framework import serializers
 from users.models import User, Profile
+from users.utils import is_image_aspect_ratio_valid, is_image_size_valid
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -56,19 +55,23 @@ class UserProfileSerializer(serializers.ModelSerializer):
                         destination.write(chunk)
                     destination.close()
 
-                if sys.getsizeof(image.file) > IMAGE_SIZE_MAX_BYTES:
+			# Check image size
+                if not is_image_size_valid(url, IMAGE_SIZE_MAX_BYTES):
                     os.remove(url)
                     raise serializers.ValidationError({"response": "That image is too large. Images must be less than 2 MB. Try a different image."})
 
-                img = cv2.imread(url)
-                dimensions = img.shape # gives: (height, width, ?)
-                
-                aspect_ratio = dimensions[1] / dimensions[0] # divide w / h
-                if aspect_ratio != 1:
+                # Check image aspect ratio
+                if not is_image_aspect_ratio_valid(url):
                     os.remove(url)
-                    raise serializers.ValidationError({"response": "Image must be 1:1. Try a different image."})
+                    raise serializers.ValidationError({"response": "Image width and height must be equal"})                
 
                 os.remove(url)
             except KeyError:
                 pass
             return profile
+
+class ChangePasswordSerializer(serializers.Serializer):
+
+	old_password 				= serializers.CharField(required=True)
+	new_password 				= serializers.CharField(required=True)
+	confirm_new_password 		= serializers.CharField(required=True)
