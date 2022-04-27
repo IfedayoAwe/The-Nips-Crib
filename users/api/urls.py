@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from users.api.views import (
                             registration_view, 
                             user_properties_view, 
@@ -17,4 +17,5 @@ urlpatterns = [
     path('check_if_account_exists/', does_account_exist_view, name="check_if_account_exists"),
     path('login/', ObtainAuthTokenView.as_view(), name='login-api'),
 	path('change_password/', ChangePasswordView.as_view(), name="change_password"),
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]

@@ -25,6 +25,8 @@ note: results are paginated by 10
 
 * Password Reset Function: This uses the default django PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView and sends a reset link to the users email.
 
+* Password Reset API: API view to reset password, if forgotten. It sends the token to the email of the user which can then be tested in postman..
+
 * Profile CRUD operations: The program includes the ability for a user to update their username, email and profile pictures although a default profile picture is given once the user is created.
 
 * Profile CRUD operations API: The program includes the API view for a user to update their username, email and profile pictures although a default profile picture is given once the user is created. If a user's email contains uppercase, it would be converted to all lowercase, an aspect ratio of 1:1 and size maximum 2mb is compulsory for profile picture updates.
@@ -65,8 +67,8 @@ urlpatterns = [
     path('check_if_account_exists/', does_account_exist_view, name="check_if_account_exists"),
     path('login/', ObtainAuthTokenView.as_view(), name='login-api'),
 	path('change_password/', ChangePasswordView.as_view(), name="change_password"),
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]
-
 
 app_name = 'blog'
 
@@ -88,6 +90,7 @@ urlpatterns = [
 9. The url 'properties' points to the functions that update the user's 'username and email' respectively. An authentication token would be required in the header of the request and the corresponding values to the keys: 'username and email', a user can choose to update only the username or email or both, likewise is postman.
 10. The url 'profile-api' points to the functions that update the user's 'profile picture'. An authentication token would be required in the header of the request and the corresponding values to the key: 'image', and then the new file
 11. To use the change_password function, an authentication token is needed, an old_password, new_password and confirm_password key is necessary.
+12. To reset password, the email is needed, a new token would be sent to the User's email, keys: 'token and password' would be needed to set the new password.
 
 ## Contribution
 Pull requests are and new features suggestions are welcomed.
