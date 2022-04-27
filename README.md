@@ -68,6 +68,7 @@ urlpatterns = [
     path('login/', ObtainAuthTokenView.as_view(), name='login-api'),
 	path('change_password/', ChangePasswordView.as_view(), name="change_password"),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('logout/', LogoutView.as_view(), name='auth_logout'),
 ]
 
 app_name = 'blog'
@@ -91,6 +92,7 @@ urlpatterns = [
 10. The url 'profile-api' points to the functions that update the user's 'profile picture'. An authentication token would be required in the header of the request and the corresponding values to the key: 'image', and then the new file
 11. To use the change_password function, an authentication token is needed, an old_password, new_password and confirm_password key is necessary.
 12. To reset password, the email is needed, a new token would be sent to the User's email, keys: 'token and password' would be needed to set the new password.
+13. To logout, the email is required, a request is sent and the current token would be deleted, the user would need to login again to generate a new token.
 
 ## Contribution
 Pull requests are and new features suggestions are welcomed.
