@@ -148,3 +148,13 @@ class ChangePasswordView(UpdateAPIView):
 			return Response({"response":"successfully changed password"}, status=200)
 
 		return Response(serializer.errors, status=400)
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            request.user.auth_token.delete()
+            return Response('User Logged out successfully')
+        except:
+            return Response(status=400)

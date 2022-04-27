@@ -5,7 +5,8 @@ from users.api.views import (
                             user_profile_view,
                             does_account_exist_view,
                             ObtainAuthTokenView,
-                            ChangePasswordView
+                            ChangePasswordView,
+                            LogoutView
                             )
 
 app_name = 'users'
@@ -18,4 +19,5 @@ urlpatterns = [
     path('login/', ObtainAuthTokenView.as_view(), name='login-api'),
 	path('change_password/', ChangePasswordView.as_view(), name="change_password"),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('logout/', LogoutView.as_view(), name='auth_logout'),
 ]
