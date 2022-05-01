@@ -43,8 +43,12 @@ asgiref==3.5.0
 distlib==0.3.4
 Django==4.0.2
 django-crispy-forms==1.14.0
+django-rest-passwordreset==1.2.1
 djangorestframework==3.13.1
 filelock==3.4.2
+numpy==1.22.3
+opencv-python==4.5.5.64
+opencv-python-headless==4.5.5.64
 Pillow==9.0.1
 platformdirs==2.4.1
 pytz==2022.1
